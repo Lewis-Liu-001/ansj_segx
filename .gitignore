@@ -1,0 +1,12 @@
+/build/*
+/ivy/*
+/runtime/*
+/target/*
+/bin/*
+/lib/*
+*.jar
+*.class
+*.log
+*.zip
+.svn
+/target/

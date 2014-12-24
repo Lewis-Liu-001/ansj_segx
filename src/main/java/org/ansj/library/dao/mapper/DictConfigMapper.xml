@@ -1,0 +1,266 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.ansj.library.dao.mapper.DictConfigMapper" >
+  <resultMap id="BaseResultMap" type="org.ansj.library.dao.entity.DictConfig" >
+    <id column="id_pk" property="idPk" jdbcType="BIGINT" />
+    <result column="table_name" property="tableName" jdbcType="VARCHAR" />
+    <result column="table_desc" property="tableDesc" jdbcType="VARCHAR" />
+    <result column="is_update" property="isUpdate" jdbcType="INTEGER" />
+    <result column="operator" property="operator" jdbcType="VARCHAR" />
+    <result column="node_number" property="nodeNumber" jdbcType="INTEGER" />
+    <result column="state" property="state" jdbcType="INTEGER" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id_pk, table_name, table_desc, is_update, operator, node_number, state, update_time
+  </sql>
+  
+    <!-- 自定义部分 -->
+  <select id="selectByTableName" resultMap="BaseResultMap" parameterType="map">
+  	select id_pk, table_name, is_update, operator, node_number from t_sys_dict_config where state=#{state} and table_name=#{tableName} and is_update > 0
+  </select>
+  <!-- 自定义部分 -->
+  
+  
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="org.ansj.library.dao.entity.DictConfigExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from t_sys_dict_config
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_sys_dict_config
+    where id_pk = #{idPk,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from t_sys_dict_config
+    where id_pk = #{idPk,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="org.ansj.library.dao.entity.DictConfigExample" >
+    delete from t_sys_dict_config
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="org.ansj.library.dao.entity.DictConfig" >
+    insert into t_sys_dict_config (id_pk, table_name, table_desc, 
+      is_update, operator, node_number, 
+      state, update_time)
+    values (#{idPk,jdbcType=BIGINT}, #{tableName,jdbcType=VARCHAR}, #{tableDesc,jdbcType=VARCHAR}, 
+      #{isUpdate,jdbcType=INTEGER}, #{operator,jdbcType=VARCHAR}, #{nodeNumber,jdbcType=INTEGER}, 
+      #{state,jdbcType=INTEGER}, #{updateTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="org.ansj.library.dao.entity.DictConfig" >
+    insert into t_sys_dict_config
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="idPk != null" >
+        id_pk,
+      </if>
+      <if test="tableName != null" >
+        table_name,
+      </if>
+      <if test="tableDesc != null" >
+        table_desc,
+      </if>
+      <if test="isUpdate != null" >
+        is_update,
+      </if>
+      <if test="operator != null" >
+        operator,
+      </if>
+      <if test="nodeNumber != null" >
+        node_number,
+      </if>
+      <if test="state != null" >
+        state,
+      </if>
+      <if test="updateTime != null" >
+        update_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="idPk != null" >
+        #{idPk,jdbcType=BIGINT},
+      </if>
+      <if test="tableName != null" >
+        #{tableName,jdbcType=VARCHAR},
+      </if>
+      <if test="tableDesc != null" >
+        #{tableDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="isUpdate != null" >
+        #{isUpdate,jdbcType=INTEGER},
+      </if>
+      <if test="operator != null" >
+        #{operator,jdbcType=VARCHAR},
+      </if>
+      <if test="nodeNumber != null" >
+        #{nodeNumber,jdbcType=INTEGER},
+      </if>
+      <if test="state != null" >
+        #{state,jdbcType=INTEGER},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="org.ansj.library.dao.entity.DictConfigExample" resultType="java.lang.Integer" >
+    select count(*) from t_sys_dict_config
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update t_sys_dict_config
+    <set >
+      <if test="record.idPk != null" >
+        id_pk = #{record.idPk,jdbcType=BIGINT},
+      </if>
+      <if test="record.tableName != null" >
+        table_name = #{record.tableName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.tableDesc != null" >
+        table_desc = #{record.tableDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="record.isUpdate != null" >
+        is_update = #{record.isUpdate,jdbcType=INTEGER},
+      </if>
+      <if test="record.operator != null" >
+        operator = #{record.operator,jdbcType=VARCHAR},
+      </if>
+      <if test="record.nodeNumber != null" >
+        node_number = #{record.nodeNumber,jdbcType=INTEGER},
+      </if>
+      <if test="record.state != null" >
+        state = #{record.state,jdbcType=INTEGER},
+      </if>
+      <if test="record.updateTime != null" >
+        update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update t_sys_dict_config
+    set id_pk = #{record.idPk,jdbcType=BIGINT},
+      table_name = #{record.tableName,jdbcType=VARCHAR},
+      table_desc = #{record.tableDesc,jdbcType=VARCHAR},
+      is_update = #{record.isUpdate,jdbcType=INTEGER},
+      operator = #{record.operator,jdbcType=VARCHAR},
+      node_number = #{record.nodeNumber,jdbcType=INTEGER},
+      state = #{record.state,jdbcType=INTEGER},
+      update_time = #{record.updateTime,jdbcType=TIMESTAMP}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="org.ansj.library.dao.entity.DictConfig" >
+    update t_sys_dict_config
+    <set >
+      <if test="tableName != null" >
+        table_name = #{tableName,jdbcType=VARCHAR},
+      </if>
+      <if test="tableDesc != null" >
+        table_desc = #{tableDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="isUpdate != null" >
+        is_update = #{isUpdate,jdbcType=INTEGER},
+      </if>
+      <if test="operator != null" >
+        operator = #{operator,jdbcType=VARCHAR},
+      </if>
+      <if test="nodeNumber != null" >
+        node_number = #{nodeNumber,jdbcType=INTEGER},
+      </if>
+      <if test="state != null" >
+        state = #{state,jdbcType=INTEGER},
+      </if>
+      <if test="updateTime != null" >
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id_pk = #{idPk,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="org.ansj.library.dao.entity.DictConfig" >
+    update t_sys_dict_config
+    set table_name = #{tableName,jdbcType=VARCHAR},
+      table_desc = #{tableDesc,jdbcType=VARCHAR},
+      is_update = #{isUpdate,jdbcType=INTEGER},
+      operator = #{operator,jdbcType=VARCHAR},
+      node_number = #{nodeNumber,jdbcType=INTEGER},
+      state = #{state,jdbcType=INTEGER},
+      update_time = #{updateTime,jdbcType=TIMESTAMP}
+    where id_pk = #{idPk,jdbcType=BIGINT}
+  </update>
+</mapper>
