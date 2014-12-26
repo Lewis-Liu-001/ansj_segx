@@ -46,7 +46,7 @@ public class SqlSessionUtil {
 		return instance.openSession();
 	}
 	
-	public static void closeSession(SqlSession session){
+	public static synchronized void closeSession(SqlSession session){
 		if(null != session){
 			session.close();
 		}

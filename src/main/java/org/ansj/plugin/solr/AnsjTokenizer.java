@@ -23,14 +23,14 @@ public final class AnsjTokenizer extends Tokenizer {
 	private final PorterStemmer stemmer = new PorterStemmer();
 	protected Analysis analysis = null;
 	private Set<String> filter;
-	private boolean pstemming;
+	private boolean isStemming;
 
 	public AnsjTokenizer(Analysis analysis, Reader input, Set<String> filter,
-			boolean pstemming) {
+			boolean isStemming) {
 		super(input);
 		this.analysis = analysis;
 		this.filter = filter;
-		this.pstemming = pstemming;
+		this.isStemming = isStemming;
 	}
 
 	@Override
@@ -49,7 +49,7 @@ public final class AnsjTokenizer extends Tokenizer {
 			}
 			name = term.getName();
 			length = name.length();
-			if (pstemming && term.termNatures() == TermNatures.EN) {
+			if (isStemming && term.termNatures() == TermNatures.EN) {
 				name = stemmer.stem(name);
 				term.setName(name);
 			}

@@ -23,9 +23,9 @@ import org.slf4j.LoggerFactory;
 public class AnsjTokenizerFactory extends TokenizerFactory {
 	private static final Logger log = LoggerFactory
 			.getLogger(AnsjTokenizerFactory.class);
-	boolean pstemming;
+	boolean isStemming;
 	boolean isQuery;
-	private String stopwordsDir;
+	private String stopWordsDir;
 	private String[] stopWords = new String[] { "'", ",", ".", "`", "?", "(",
 			")", "{", "}", "[", "]", "<", ">", "*", "#", "&", "^", "!", ":",
 			";", "《", "》", "，", "。", "、", "：", "；", "！", "·", "？", "“", "”",
@@ -36,9 +36,9 @@ public class AnsjTokenizerFactory extends TokenizerFactory {
 		super(args);
 		assureMatchVersion();
 		isQuery = getBoolean(args, "isQuery", true);
-		pstemming = getBoolean(args, "pstemming", false);
-		stopwordsDir = get(args, "words");
-		addStopwords(stopwordsDir);
+		isStemming = getBoolean(args, "isStemming", false);
+		stopWordsDir = get(args, "stopWords");
+		addStopwords(stopWordsDir);
 	}
 
 	// add stopwords list to filter
@@ -80,10 +80,10 @@ public class AnsjTokenizerFactory extends TokenizerFactory {
 	public Tokenizer create(AttributeFactory factory, Reader input) {
 		if (isQuery == true) {
 			return new AnsjTokenizer(new ToAnalysis(new BufferedReader(input)),
-					input, filter, pstemming);
+					input, filter, isStemming);
 		} else {
 			return new AnsjTokenizer(new IndexAnalysis(
-					new BufferedReader(input)), input, filter, pstemming);
+					new BufferedReader(input)), input, filter, isStemming);
 		}
 	}
 }
