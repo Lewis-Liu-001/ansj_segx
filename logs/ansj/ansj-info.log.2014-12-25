@@ -1,0 +1,16 @@
+2014-12-25 21:15:07  [ org.ansj.library.UserDefineLibrary:main:0 ] - [ INFO ]  从MySQL加载用户自定义词典(segment)共花费5776ms
+2014-12-25 21:15:07  [ org.ansj.library.UserDefineLibrary:main:22 ] - [ INFO ]  从MySQL加载用户自定义词典(user_library)共花费16ms
+2014-12-25 21:15:07  [ org.ansj.library.UserDefineLibrary:main:48 ] - [ INFO ]  从MySQL加载岐义纠正词典共花费：26ms
+2014-12-25 21:15:07  [ org.ansj.library.UserDefineLibrary:main:69 ] - [ INFO ]  岐义词典没有更新！
+2014-12-25 21:15:07  [ org.ansj.library.UserDefineLibrary:main:75 ] - [ INFO ]  用户自定义词典没有更新！
+2014-12-25 21:15:08  [ org.ansj.library.UserDefineLibrary:main:1695 ] - [ INFO ]  岐义词典没有更新！
+2014-12-25 21:15:08  [ org.ansj.library.UserDefineLibrary:main:1701 ] - [ INFO ]  用户自定义词典没有更新！
+2014-12-25 21:15:08  [ org.ansj.library.UserDefineLibrary:main:1709 ] - [ INFO ]  岐义词典没有更新！
+2014-12-25 21:15:08  [ org.ansj.library.UserDefineLibrary:main:1714 ] - [ INFO ]  用户自定义词典没有更新！
+2014-12-25 21:15:08  [ org.ansj.library.UserDefineLibrary:main:1719 ] - [ INFO ]  岐义词典没有更新！
+2014-12-25 21:15:08  [ org.ansj.library.UserDefineLibrary:main:1724 ] - [ INFO ]  用户自定义词典没有更新！
+2014-12-25 21:15:08  [ org.ansj.library.UserDefineLibrary:main:1729 ] - [ INFO ]  岐义词典没有更新！
+2014-12-25 21:15:08  [ org.ansj.library.UserDefineLibrary:main:1733 ] - [ INFO ]  用户自定义词典没有更新！
+2014-12-25 21:15:08  [ org.ansj.library.UserDefineLibrary:main:1738 ] - [ INFO ]  岐义词典没有更新！
+2014-12-25 21:15:08  [ org.ansj.library.UserDefineLibrary:main:1744 ] - [ INFO ]  用户自定义词典没有更新！
+2014-12-25 21:26:22  [ org.ansj.library.UserDefineLibrary:main:0 ] - [ INFO ]  加载library/default.dic文件共花费564 ms

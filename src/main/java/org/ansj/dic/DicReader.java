@@ -12,9 +12,10 @@ import java.io.UnsupportedEncodingException;
  */
 public class DicReader {
 	public static BufferedReader getReader(String name) {
-		// maven工程修改词典加载方式
-		InputStream in = DicReader.class.getResourceAsStream("/" + name);
+		
 		try {
+			// maven工程修改词典加载方式
+			InputStream in = DicReader.class.getResourceAsStream("/" + name);
 			return new BufferedReader(new InputStreamReader(in, "UTF-8"));
 		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();
@@ -27,4 +28,6 @@ public class DicReader {
 		InputStream in = DicReader.class.getResourceAsStream("/" + name);
 		return in;
 	}
+	
+	
 }

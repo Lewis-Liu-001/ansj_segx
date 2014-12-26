@@ -10,6 +10,7 @@ import java.io.UnsupportedEncodingException;
 import java.util.Date;
 import java.util.List;
 
+import org.ansj.dic.DicReader;
 import org.ansj.lang.tire.domain.Forest;
 import org.ansj.lang.tire.domain.Value;
 import org.ansj.lang.tire.domain.WoodInterface;
@@ -51,8 +52,10 @@ public class UserDefineLibrary {
 
 	static {
 		if("file".equals(MyStaticValue.userLibrarySource)) {
-			initUserLibrary();
-			initAmbiguityLibrary();
+			//initUserLibrary();
+			initUserLibraryFromFile();
+			//initAmbiguityLibrary();
+			initAmbiguityLibraryFromFile();
 		} else if("mysql".equals(MyStaticValue.userLibrarySource)) {
 			initUserWordFromMySQL();
 			initUserLibraryFromMySQL();
@@ -104,6 +107,38 @@ public class UserDefineLibrary {
 			LIBRARYLOG.warning("init ambiguity  warning :" + new File(ambiguityLibrary).getAbsolutePath() + " because : file not found or failed to read !");
 		}
 	}
+	
+	/**
+	 * 加载纠正词典
+	 */
+	private static void initAmbiguityLibraryFromFile() {
+		// TODO Auto-generated method stub
+		String ambiguityLibrary = MyStaticValue.ambiguityLibrary;
+		if (StringUtil.isBlank(ambiguityLibrary)) {
+			LIBRARYLOG.warning("init ambiguity  warning :" + ambiguityLibrary + " because : file not found or failed to read !");
+			return;
+		}
+		
+		BufferedReader br = DicReader.getReader(ambiguityLibrary);
+		if (null != br) {
+			try {
+				ambiguityForest = Library.makeForest(br);
+			} catch (Exception e) {
+				LIBRARYLOG.warning("init ambiguity  error :" + new File(ambiguityLibrary).getAbsolutePath() + " because : not find that file or can not to read !");
+				e.printStackTrace();
+			} finally {
+				try {
+					br.close();
+				} catch (IOException e) {
+					LIBRARYLOG.warning(e.getLocalizedMessage());
+					e.printStackTrace();
+				}
+			}
+			LIBRARYLOG.info("init ambiguityLibrary ok!");
+		} else {
+			LIBRARYLOG.warning("init ambiguity  warning :" + new File(ambiguityLibrary).getAbsolutePath() + " because : file not found or failed to read !");
+		}
+	}
 	/**
 	 * 加载纠正词典，from MySQL
 	 */
@@ -140,6 +175,33 @@ public class UserDefineLibrary {
 			String userLibrary = MyStaticValue.userLibrary;
 			long start = System.currentTimeMillis();
 			loadLibrary(FOREST, userLibrary);
+			long end = System.currentTimeMillis();
+			if(log.isInfoEnabled()) {
+				log.info("加载" + userLibrary + "文件共花费" + (end - start) + " ms");
+			}
+		} catch (Exception e) {
+			log.error(e.getMessage());
+			e.printStackTrace();
+		}
+
+	}
+	
+	/**
+	 * 加载用户自定义词典和补充词典
+	 */
+	private static void initUserLibraryFromFile() {
+		// TODO Auto-generated method stub
+		try {
+			FOREST = new Forest();
+			// 加载用户自定义词典
+			String userLibrary = MyStaticValue.userLibrary;
+			if (StringUtil.isBlank(userLibrary)) {
+				LIBRARYLOG.warning("init user library  warning :" + userLibrary + " because : file name is empty or null!");
+				return;
+			}
+			long start = System.currentTimeMillis();
+			BufferedReader br = DicReader.getReader(userLibrary);
+			loadFile(FOREST, br);
 			long end = System.currentTimeMillis();
 			if(log.isInfoEnabled()) {
 				log.info("加载" + userLibrary + "文件共花费" + (end - start) + " ms");
@@ -272,6 +334,50 @@ public class UserDefineLibrary {
 			br = null;
 		}
 	}
+	
+	// 单个文件加载词典
+		public static void loadFile(Forest forest, BufferedReader br) {
+			if (null == br) {
+				LIBRARYLOG.warning("init user library  error , because : not find that file or can not to read !");
+				return;
+			}
+			String temp = null;
+			String[] strs = null;
+			Value value = null;
+			try {
+				while ((temp = br.readLine()) != null) {
+					if (StringUtil.isBlank(temp)) {
+						continue;
+					} else {
+						strs = temp.split("\t");
+
+						strs[0] = strs[0].toLowerCase();
+
+						// 如何核心辞典存在那么就放弃
+						if (MyStaticValue.isSkipUserDefine && DATDictionary.getId(strs[0]) > 0) {
+							continue;
+						}
+
+						if (strs.length != 3) {
+							value = new Value(strs[0], DEFAULT_NATURE, DEFAULT_FREQ_STR);
+						} else {
+							value = new Value(strs[0], strs[1], strs[2]);
+						}
+						Library.insertWord(forest, value);
+					}
+				}
+				LIBRARYLOG.info("init user userLibrary OK! ");
+			} catch (UnsupportedEncodingException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} finally {
+				IOUtil.close(br);
+				br = null;
+			}
+		}
 
 	/**
 	 * 加载词典,传入一本词典的路径.或者目录.词典后缀必须为.dic
