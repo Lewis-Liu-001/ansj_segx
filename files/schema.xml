@@ -1,0 +1,132 @@
+<?xml version="1.0" ?>
+<!--
+ Licensed to the Apache Software Foundation (ASF) under one or more
+ contributor license agreements.  See the NOTICE file distributed with
+ this work for additional information regarding copyright ownership.
+ The ASF licenses this file to You under the Apache License, Version 2.0
+ (the "License"); you may not use this file except in compliance with
+ the License.  You may obtain a copy of the License at
+
+     http://www.apache.org/licenses/LICENSE-2.0
+
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+
+<schema name="example core zero" version="1.1">
+
+	<fieldType name="int" class="solr.TrieIntField" precisionStep="0" positionIncrementGap="0"/>
+    <fieldType name="float" class="solr.TrieFloatField" precisionStep="0" positionIncrementGap="0"/>
+    <fieldType name="long" class="solr.TrieLongField" precisionStep="0" positionIncrementGap="0"/>
+    <fieldType name="double" class="solr.TrieDoubleField" precisionStep="0" positionIncrementGap="0"/>
+
+	<fieldType name="tint" class="solr.TrieIntField" precisionStep="8" positionIncrementGap="0"/>
+    <fieldType name="tfloat" class="solr.TrieFloatField" precisionStep="8" positionIncrementGap="0"/>
+    <fieldType name="tlong" class="solr.TrieLongField" precisionStep="8" positionIncrementGap="0"/>
+    <fieldType name="tdouble" class="solr.TrieDoubleField" precisionStep="8" positionIncrementGap="0"/>
+
+    <fieldtype name="string"  class="solr.StrField" sortMissingLast="true" omitNorms="true"/>
+    <fieldType name="random" class="solr.RandomSortField" indexed="true" />
+	<fieldType name="boolean" class="solr.BoolField" sortMissingLast="true"/>
+
+	<fieldType name="date" class="solr.TrieDateField" precisionStep="0" positionIncrementGap="0"/>
+    <fieldType name="tdate" class="solr.TrieDateField" precisionStep="6" positionIncrementGap="0"/>
+
+   <fieldType name="text_ansj" class="solr.TextField" positionIncrementGap="100">
+      <analyzer type="index">
+        <tokenizer class="org.ansj.plugin.solr.AnsjTokenizerFactory" isQuery="false" isStemming="true"/>
+        <filter class="solr.LowerCaseFilterFactory"/>
+      </analyzer>
+      <analyzer type="query">
+        <tokenizer class="org.ansj.plugin.solr.AnsjTokenizerFactory"/>        
+        <filter class="solr.LowerCaseFilterFactory"/>
+      </analyzer>
+    </fieldType>
+
+	<fieldType name="text_en" class="solr.TextField" positionIncrementGap="100">
+      <analyzer type="index">
+        <tokenizer class="solr.StandardTokenizerFactory"/>
+        <filter class="solr.StopFilterFactory"
+                ignoreCase="true"
+                words="lang/stopwords_en.txt"
+                />
+        <filter class="solr.LowerCaseFilterFactory"/>
+		<filter class="solr.EnglishPossessiveFilterFactory"/>
+        <filter class="solr.KeywordMarkerFilterFactory" protected="protwords.txt"/>	
+        <filter class="solr.PorterStemFilterFactory"/>
+      </analyzer>
+      <analyzer type="query">
+        <tokenizer class="solr.StandardTokenizerFactory"/>
+        <filter class="solr.SynonymFilterFactory" synonyms="synonyms.txt" ignoreCase="true" expand="true"/>
+        <filter class="solr.StopFilterFactory"
+                ignoreCase="true"
+                words="lang/stopwords_en.txt"
+                />
+        <filter class="solr.LowerCaseFilterFactory"/>
+		<filter class="solr.EnglishPossessiveFilterFactory"/>
+        <filter class="solr.KeywordMarkerFilterFactory" protected="protwords.txt"/>	
+        <filter class="solr.PorterStemFilterFactory"/>
+      </analyzer>
+    </fieldType>
+
+  <!-- general -->
+  <field name="id"        type="string"   indexed="true"  stored="true"  multiValued="false" required="true"/>
+  <field name="type"      type="string"   indexed="true"  stored="true"  multiValued="false" />
+  <field name="name"      type="string"   indexed="true"  stored="true"  multiValued="false" />
+  <field name="title" type="text_ansj" indexed="true" stored="true" multiValued="false"/>
+  <field name="author" type="text_ansj" indexed="true" stored="true" multiValued="false"/>
+  <field name="url" type="string" indexed="true" stored="true"/>
+  <field name="content" type="text_ansj" indexed="false" stored="true" multiValued="false"/>
+
+  <field name="text" type="text_ansj" indexed="true" stored="false" multiValued="true"/>
+
+  <field name="core0"     type="string"   indexed="true"  stored="true"  multiValued="false" />
+  <field name="_version_" type="long"     indexed="true"  stored="true"/>
+
+
+
+   <dynamicField name="*_i"  type="int"    indexed="true"  stored="true"/>
+   <dynamicField name="*_is" type="int"    indexed="true"  stored="true"  multiValued="true"/>
+   <dynamicField name="*_s"  type="string"  indexed="true"  stored="true" />
+   <dynamicField name="*_ss" type="string"  indexed="true"  stored="true" multiValued="true"/>
+   <dynamicField name="*_l"  type="long"   indexed="true"  stored="true"/>
+   <dynamicField name="*_ls" type="long"   indexed="true"  stored="true"  multiValued="true"/>
+   <dynamicField name="*_t"  type="text_ansj"    indexed="true"  stored="true"/>
+   <dynamicField name="*_txt" type="text_ansj"   indexed="true"  stored="true" multiValued="true"/>
+   <dynamicField name="*_en"  type="text_en"    indexed="true"  stored="true" multiValued="true"/>
+   <dynamicField name="*_b"  type="boolean" indexed="true" stored="true"/>
+   <dynamicField name="*_bs" type="boolean" indexed="true" stored="true"  multiValued="true"/>
+   <dynamicField name="*_f"  type="float"  indexed="true"  stored="true"/>
+   <dynamicField name="*_fs" type="float"  indexed="true"  stored="true"  multiValued="true"/>
+   <dynamicField name="*_d"  type="double" indexed="true"  stored="true"/>
+   <dynamicField name="*_ds" type="double" indexed="true"  stored="true"  multiValued="true"/>
+
+  
+   <dynamicField name="*_dt"  type="date"    indexed="true"  stored="true"/>
+   <dynamicField name="*_dts" type="date"    indexed="true"  stored="true" multiValued="true"/>
+  
+   <!-- some trie-coded dynamic fields for faster range queries -->
+   <dynamicField name="*_ti" type="tint"    indexed="true"  stored="true"/>
+   <dynamicField name="*_tl" type="tlong"   indexed="true"  stored="true"/>
+   <dynamicField name="*_tf" type="tfloat"  indexed="true"  stored="true"/>
+   <dynamicField name="*_td" type="tdouble" indexed="true"  stored="true"/>
+   <dynamicField name="*_tdt" type="tdate"  indexed="true"  stored="true"/>
+
+
+ <copyField source="title" dest="text"/>
+ <copyField source="author" dest="text"/>
+ <copyField source="content" dest="text"/>
+
+ <!-- field to use to determine and enforce document uniqueness. -->
+ <uniqueKey>id</uniqueKey>
+
+ <!-- field for the QueryParser to use when an explicit fieldname is absent -->
+ <defaultSearchField>text</defaultSearchField>
+
+ <!-- SolrQueryParser configuration: defaultOperator="AND|OR" -->
+ <solrQueryParser defaultOperator="OR"/>
+</schema>
+
