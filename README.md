@@ -31,16 +31,25 @@ MySQL数据库，library.properties文件中设置userLibrarySource=mysql,数据
 
 solr的schema.xml中添加：
 
-<fieldType name="text_ansj" class="solr.TextField" positionIncrementGap="100">
+`<fieldType name="text_ansj" class="solr.TextField" positionIncrementGap="100">
+
     <analyzer type="index">
+    
         <tokenizer class="org.ansj.plugin.solr.AnsjTokenizerFactory" isQuery="false" isStemming="true"/>
+        
         <filter class="solr.LowerCaseFilterFactory"/>
+        
     </analyzer>
+    
     <analyzer type="query">
+    
         <tokenizer class="org.ansj.plugin.solr.AnsjTokenizerFactory"/>
+        
         <filter class="solr.LowerCaseFilterFactory"/>
+        
     </analyzer>
-</fieldType>
+    
+</fieldType>`
 
 Tokenizer共支持三个参数isQuery，isStemming和stopWords：
 
