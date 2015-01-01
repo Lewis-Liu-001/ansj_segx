@@ -1,4 +1,4 @@
-Ansj中文分词的另一种选择
+Ansj中文分词的另一选择
 =========
 项目说明：
 ===
@@ -70,4 +70,4 @@ schema文件详见源码中files文件夹中的schema.xml文件。
 3、solr插件支持solr cloud
 技术支持
 ===
-email:94660697@qq.com
+Email:94660697@qq.com
