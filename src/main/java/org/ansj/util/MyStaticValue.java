@@ -68,13 +68,13 @@ public class MyStaticValue {
 			if (rb.containsKey("userLibrary"))
 				userLibrary = rb.getString("userLibrary");
 			if (rb.containsKey("userLibraryTable"))
-				userLibrary = rb.getString("userLibraryTable");
+				userLibraryTable = rb.getString("userLibraryTable");
 			if (rb.containsKey("userLibrarySource"))
 				userLibrarySource = rb.getString("userLibrarySource");
 			if (rb.containsKey("ambiguityLibrary"))
 				ambiguityLibrary = rb.getString("ambiguityLibrary");
 			if (rb.containsKey("ambiguitySentenceTable"))
-				ambiguityLibrary = rb.getString("ambiguitySentenceTable");
+				ambiguitySentenceTable = rb.getString("ambiguitySentenceTable");
 			if (rb.containsKey("isSkipUserDefine"))
 				isSkipUserDefine = Boolean.valueOf(rb.getString("isSkipUserDefine"));
 			if (rb.containsKey("isRealName"))
